@@ -44,6 +44,9 @@ if [ -f /etc/bash.bashrc ]; then
   source /etc/bash.bashrc
 fi
 
+PS1='\[\e[0;31m\]\u\[\e[m\] \[\e[1;34m\]\w\[\e[m\] \[\e[0;31m\]\$ \[\e[m\]\[\e[0;32m\]'
+
+
 
 # get debian version and name
 DEBIAN_VERSION=$(cat /etc/debian_version | cut -b -3)
