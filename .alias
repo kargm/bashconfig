@@ -1,0 +1,33 @@
+# .alias
+
+alias rm='rm'
+alias ls='ls -F --color=auto'
+alias ll='ls -l'
+alias lll='ls -l --color=always | more'
+alias la='ls -al'
+alias lal='ls -al --color=always | more'
+alias lr='ls -R'
+alias llr='ls -lR'
+alias lar='ls -alR'
+alias dir='ls -l | grep "^d"'
+alias cgrep='grep -n --color=always'
+alias cdp='cd -P `pwd`'
+
+alias less="less -I -R"
+
+alias grep='grep --color=auto'
+
+alias dos2unix='recode ibmpc..lat1'
+alias unix2dos='recode lat1..ibmpc'
+
+# my aliases ;)
+alias tig-st='tig status'
+
+alias nano='nano -w -S'
+
+#alias allegro='pipe-rlwrap --fifo=${HOME}/.lisp-pipe -b ${LISP_BREAK_CHARS} allegro-lisp -I ${ACLCORE}'
+#alias vi='vim --servername VIM'
+
+alias ec="emacsclient -n -e  '(new-frame)' -a emacs"
+alias git-graph='git log --graph --pretty=oneline --decorate'
+alias 'ps?'='ps ax | grep '
