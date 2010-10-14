@@ -118,7 +118,7 @@ export LDFLAGS="-L${HOME}/local/all/lib -L${HOME}/local/${ARCH_DIR}/lib ${LDFLAG
 export INFOPATH=$INFOPATH:${HOME}/local/${ARCH_DIR}/share/info:${HOME}/local/all/share/info
 
 
-# completion ignores those
+# tab completion ignores those
 export FIGNORE=.svn
 
 ##### rlwrap #####
