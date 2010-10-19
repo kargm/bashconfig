@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Pfadvars für Docs Repo
+export TEXTMFHOME=${HOME}/../../../work/kargm/docs/trunk/rexmf
+export BIBINPUTS=${HOME}/../../../work/kargm/docs/trunk/bibliography:
+
 # don't put duplicate lines in the history. See bash(1) for more options
 # don't overwrite GNU Midnight Commander's setting of `ignorespace'.
 export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
@@ -157,3 +161,6 @@ export TEXMFHOME='${HOME}/.texmf:/work/kargm/docs/trunk/texmf'
 export BIBINPUTS=..:/work/kargm/docs/bibliography
 
 export EDITOR=nano
+
+# ROS stuff
+source /opt/ros/cturtle/setup.sh
