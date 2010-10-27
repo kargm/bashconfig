@@ -134,13 +134,18 @@ export FIGNORE=.svn
 export RLWRAP_HOME=${HOME}/.rlwrap
 
 ##### Cogito #####
-export PLAYERPATH=${HOME}/work/lisp/cogito/kibo/pg-sim/lib/${ARCH_DIR}/player-plugins
-export GAZEBOPATH=${HOME}/work/lisp/cogito/kibo/pg-sim/lib/${ARCH_DIR}/gazebo-plugins
+export PLAYERPATH=${HOME}/work/lisp/kibo/pg-sim/lib/${ARCH_DIR}/player-plugins
+export GAZEBOPATH=${HOME}/work/lisp/kibo/pg-sim/lib/${ARCH_DIR}/gazebo-plugins
 if [ -z "${SSH_CLIENT}" ]; then
   export KIBO_AGENT_PLAYER_HOST="127.0.0.1"
 else
   export KIBO_AGENT_PLAYER_HOST="$(echo ${SSH_CLIENT} | cut -f 1 -d " ")"
 fi
+
+######### For 32 Bit player ########
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${MOESENLE_HOME}/local/public/lenny-i386/lib
+export LDFLAGS="-L${MOESENLE_HOME}/local/public/lenny-i386/lib ${LDFLAGS}"
+
 
 ##### Lisp #####
 export LISP_SOFTWARE_ROOT=/usr/local/lehrstuhl/DIR/lisp
@@ -164,3 +169,5 @@ export EDITOR=nano
 
 # ROS stuff
 source /opt/ros/cturtle/setup.sh
+export ROS_MASTER_URI=http://localhost:11311
+export ROBOT=sim
