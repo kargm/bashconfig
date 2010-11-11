@@ -104,17 +104,17 @@ export PATH=${JAVA_HOME}/bin:${PATH}
 export MANPATH=${JAVA_HOME}/man:${MANPATH}
 
 # moesenle path
-export MOESENLE_HOME=/usr/wiss/moesenle
-
-export PATH=${MOESENLE_HOME}/local/public/all/bin:${MOESENLE_HOME}/local/public/${ARCH_DIR}/bin:${PATH}
-export LD_LIBRARY_PATH=${MOESENLE_HOME}/local/public/all/lib:${MOESENLE_HOME}/local/public/${ARCH_DIR}/lib:${LD_LIBRARY_PATH}
-export MANPATH=${MOESENLE_HOME}/local/public/all/share/man:${MOESENLE_HOME}/local/public/${ARCH_DIR}/share/man:${MANPATH}
-export PYTHONPATH=${MOESENLE_HOME}/local/public/${ARCH_DIR}/lib/${PYTHON_VERSION}/site-packages:${PYTHONPATH}
-export PERL5LIB=${MOESENLE_HOME}/local/public/${ARCH_DIR}/lib/perl//5.8.8:${PERL5LIB}
-export PKG_CONFIG_PATH=${MOESENLE_HOME}/local/public/${ARCH_DIR}/lib/pkgconfig:${PKG_CONFIG_PATH}
-export CPATH=${MOESENLE_HOME}/local/public/${ARCH_DIR}/include:${CPATH}
-export LDFLAGS="-L${MOESENLE_HOME}/local/public/${ARCH_DIR}/lib"
-
+#export MOESENLE_HOME=/usr/wiss/moesenle
+#
+#export PATH=${MOESENLE_HOME}/local/public/all/bin:${MOESENLE_HOME}/local/public/${ARCH_DIR}/bin:${PATH}
+#export LD_LIBRARY_PATH=${MOESENLE_HOME}/local/public/all/lib:${MOESENLE_HOME}/local/public/${ARCH_DIR}/lib:${LD_LIBRARY_PATH}
+#export MANPATH=${MOESENLE_HOME}/local/public/all/share/man:${MOESENLE_HOME}/local/public/${ARCH_DIR}/share/man:${MANPATH}
+#export PYTHONPATH=${MOESENLE_HOME}/local/public/${ARCH_DIR}/lib/${PYTHON_VERSION}/site-packages:${PYTHONPATH}
+#export PERL5LIB=${MOESENLE_HOME}/local/public/${ARCH_DIR}/lib/perl//5.8.8:${PERL5LIB}
+#export PKG_CONFIG_PATH=${MOESENLE_HOME}/local/public/${ARCH_DIR}/lib/pkgconfig:${PKG_CONFIG_PATH}
+#export CPATH=${MOESENLE_HOME}/local/public/${ARCH_DIR}/include:${CPATH}
+#export LDFLAGS="-L${MOESENLE_HOME}/local/public/${ARCH_DIR}/lib"
+#
 # private path
 export PATH=${HOME}/local/all/bin:${HOME}/local/${ARCH_DIR}/bin:${HOME}/local/${ARCH_DIR}/bin:${PATH}
 export LD_LIBRARY_PATH=${HOME}/local/all/lib:${HOME}/local/${ARCH_DIR}/lib:${LD_LIBRARY_PATH}
@@ -143,8 +143,8 @@ else
 fi
 
 ######### For 32 Bit player ########
-export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${MOESENLE_HOME}/local/public/lenny-i386/lib
-export LDFLAGS="-L${MOESENLE_HOME}/local/public/lenny-i386/lib ${LDFLAGS}"
+#export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${MOESENLE_HOME}/local/public/lenny-i386/lib
+#export LDFLAGS="-L${MOESENLE_HOME}/local/public/lenny-i386/lib ${LDFLAGS}"
 
 
 ##### Lisp #####
@@ -165,9 +165,21 @@ test -s ${HOME}/.bashconfig/.alias && source ${HOME}/.bashconfig/.alias
 export TEXMFHOME='${HOME}/.texmf:/work/kargm/docs/trunk/texmf'
 export BIBINPUTS=..:/work/kargm/docs/bibliography
 
-export EDITOR=nano
+# get docs-ias bib and texmf
+export TEXMFHOME='${HOME}/.texmf:/work/docs-ias/texmf':$TEXMFHOME
+export BIBINPUTS=..:/work/docs-ias/bibliography
+
+export EDITOR=vim
 
 # ROS stuff
-source /opt/ros/cturtle/setup.sh
-export ROS_MASTER_URI=http://localhost:11311
+#source /opt/ros/cturtle/setup.sh
+#export ROS_MASTER_URI=http://localhost:11311
+#export ROBOT=sim
+#export ROS_PACKAGE_PATH=${HOME}/work/ros_tutorials:$ROS_PACKAGE_PATH
+#export ROS_PACKAGE_PATH=$HOME/ros/sandbox/01:$ROS_PACKAGE_PATH
+
+#Fall school 2010
+source ${HOME}/ros/setup.sh
 export ROBOT=sim
+export CLASSPATH=`rospack find rosjava_deps`/rosjava_msgs.jar
+export ROSJAVA_AUX_CLASSPATH=`rospack find rosjava_deps`/rosjava_msgs.jar
