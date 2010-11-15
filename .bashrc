@@ -181,5 +181,8 @@ export EDITOR=vim
 #Fall school 2010
 source ${HOME}/ros/setup.sh
 export ROBOT=sim
-export CLASSPATH=`rospack find rosjava_deps`/rosjava_msgs.jar
+#Set java version 1.6
+export JAVA_HOME=/usr/lib/jvm/java-6-sun
+export PATH=${JAVA_HOME}/bin:${PATH}
 export ROSJAVA_AUX_CLASSPATH=`rospack find rosjava_deps`/rosjava_msgs.jar
+export CLASSPATH=`rospack find rosjava_deps`/rosjava_msgs.jar
