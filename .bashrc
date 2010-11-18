@@ -1,8 +1,43 @@
 #!/bin/bash
 
+# get debian version and name
+DEBIAN_VERSION=$(cat /etc/debian_version | cut -b -3)
+case ${DEBIAN_VERSION} in
+  "3.0") export DEBIAN_NAME="woody";;
+  "3.1") export DEBIAN_NAME="sarge";;
+  "4.0") export DEBIAN_NAME="etch";;
+  "5.0") export DEBIAN_NAME="lenny";;
+  *)     export DEBIAN_NAME="ubuntu";;
+esac
+
+case ${MACHTYPE} in
+  "i386-pc-linux-gnu" | "i486-pc-linux-gnu")
+    export ARCHITECTURE=i486-unknown-linux2.0.0
+    export ARCH_SHORT=i386;;
+  "x86_64-pc-linux-gnu")
+    export ARCHITECTURE=amd64-unknown-linux2.x
+    export ARCH_SHORT=amd64;;
+  *)
+    export ARCHITECTURE=unknown
+    export ARCH_SHORT=unknown
+    echo "unknown MACHTYPE=${MACHTYPE}"
+esac
+
+# architecture directory
+export ARCH_DIR=${DEBIAN_NAME}-${ARCH_SHORT}${ARCH_SUFFIX:+-$ARCH_SUFFIX}
+
+# get hostname
+export HOSTNAME=$(hostname)
+
+case ${DEBIAN_VERSION} in
+  "5.0") export TRUEHOME=${HOME}/..;;
+  *)     export TRUEHOME=${HOME};;
+esac
+
+
 # Pfadvars für Docs Repo
-export TEXTMFHOME=${HOME}/../../../work/kargm/docs/trunk/rexmf
-export BIBINPUTS=${HOME}/../../../work/kargm/docs/trunk/bibliography:
+export TEXTMFHOME=${TRUEHOME}/../../../work/kargm/docs/trunk/texmf
+export BIBINPUTS=${TRUEHOME}/../../../work/kargm/docs/trunk/bibliography:
 
 # don't put duplicate lines in the history. See bash(1) for more options
 # don't overwrite GNU Midnight Commander's setting of `ignorespace'.
@@ -57,33 +92,7 @@ fi
 export PS1="${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[31m\]\$(parse_git_branch)\[\033[00m\]\$ "
 
 
-# get debian version and name
-DEBIAN_VERSION=$(cat /etc/debian_version | cut -b -3)
-case ${DEBIAN_VERSION} in
-  "3.0") export DEBIAN_NAME="woody";;
-  "3.1") export DEBIAN_NAME="sarge";;
-  "4.0") export DEBIAN_NAME="etch";;
-  *)     export DEBIAN_NAME="lenny";;
-esac
 
-case ${MACHTYPE} in
-  "i386-pc-linux-gnu" | "i486-pc-linux-gnu")
-    export ARCHITECTURE=i486-unknown-linux2.0.0
-    export ARCH_SHORT=i386;;
-  "x86_64-pc-linux-gnu")
-    export ARCHITECTURE=amd64-unknown-linux2.x
-    export ARCH_SHORT=amd64;;
-  *)
-    export ARCHITECTURE=unknown
-    export ARCH_SHORT=unknown
-    echo "unknown MACHTYPE=${MACHTYPE}"
-esac
-
-# architecture directory
-export ARCH_DIR=${DEBIAN_NAME}-${ARCH_SHORT}${ARCH_SUFFIX:+-$ARCH_SUFFIX}
-
-# get hostname
-export HOSTNAME=$(hostname)
 
 # python version
 PYTHON_VERSION=$(readlink $(which python))
@@ -104,38 +113,37 @@ export PATH=${JAVA_HOME}/bin:${PATH}
 export MANPATH=${JAVA_HOME}/man:${MANPATH}
 
 # moesenle path
-#export MOESENLE_HOME=/usr/wiss/moesenle
-#
-#export PATH=${MOESENLE_HOME}/local/public/all/bin:${MOESENLE_HOME}/local/public/${ARCH_DIR}/bin:${PATH}
-#export LD_LIBRARY_PATH=${MOESENLE_HOME}/local/public/all/lib:${MOESENLE_HOME}/local/public/${ARCH_DIR}/lib:${LD_LIBRARY_PATH}
-#export MANPATH=${MOESENLE_HOME}/local/public/all/share/man:${MOESENLE_HOME}/local/public/${ARCH_DIR}/share/man:${MANPATH}
-#export PYTHONPATH=${MOESENLE_HOME}/local/public/${ARCH_DIR}/lib/${PYTHON_VERSION}/site-packages:${PYTHONPATH}
-#export PERL5LIB=${MOESENLE_HOME}/local/public/${ARCH_DIR}/lib/perl//5.8.8:${PERL5LIB}
-#export PKG_CONFIG_PATH=${MOESENLE_HOME}/local/public/${ARCH_DIR}/lib/pkgconfig:${PKG_CONFIG_PATH}
-#export CPATH=${MOESENLE_HOME}/local/public/${ARCH_DIR}/include:${CPATH}
-#export LDFLAGS="-L${MOESENLE_HOME}/local/public/${ARCH_DIR}/lib"
-#
+export MOESENLE_HOME=/usr/wiss/moesenle
+export PATH=${MOESENLE_HOME}/local/public/all/bin:${MOESENLE_HOME}/local/public/${ARCH_DIR}/bin:${PATH}
+export LD_LIBRARY_PATH=${MOESENLE_HOME}/local/public/all/lib:${MOESENLE_HOME}/local/public/${ARCH_DIR}/lib:${LD_LIBRARY_PATH}
+export MANPATH=${MOESENLE_HOME}/local/public/all/share/man:${MOESENLE_HOME}/local/public/${ARCH_DIR}/share/man:${MANPATH}
+export PYTHONPATH=${MOESENLE_HOME}/local/public/${ARCH_DIR}/lib/${PYTHON_VERSION}/site-packages:${PYTHONPATH}
+export PERL5LIB=${MOESENLE_HOME}/local/public/${ARCH_DIR}/lib/perl//5.8.8:${PERL5LIB}
+export PKG_CONFIG_PATH=${MOESENLE_HOME}/local/public/${ARCH_DIR}/lib/pkgconfig:${PKG_CONFIG_PATH}
+export CPATH=${MOESENLE_HOME}/local/public/${ARCH_DIR}/include:${CPATH}
+export LDFLAGS="-L${MOESENLE_HOME}/local/public/${ARCH_DIR}/lib"
+
 # private path
-export PATH=${HOME}/local/all/bin:${HOME}/local/${ARCH_DIR}/bin:${HOME}/local/${ARCH_DIR}/bin:${PATH}
-export LD_LIBRARY_PATH=${HOME}/local/all/lib:${HOME}/local/${ARCH_DIR}/lib:${LD_LIBRARY_PATH}
-export MANPATH=${HOME}/local/all/man:${HOME}/local/${ARCH_DIR}/man:${MANPATH}
-export PYTHONPATH=${HOME}/local/${ARCH_DIR}/lib/${PYTHON_VERSION}/site-packages:${PYTHONPATH}
-export PERL5LIB=${HOME}/local/${ARCH_DIR}/lib/perl//5.8.8:${PERL5LIB}
-export PKG_CONFIG_PATH=${HOME}/local/all/lib/pkgconfig:${HOME}/local/${ARCH_DIR}/lib/pkgconfig:${PKG_CONFIG_PATH}
-export CPATH=${HOME}/local/${ARCH_DIR}/include:${CPATH}
-export LDFLAGS="-L${HOME}/local/all/lib -L${HOME}/local/${ARCH_DIR}/lib ${LDFLAGS}"
-export INFOPATH=$INFOPATH:${HOME}/local/${ARCH_DIR}/share/info:${HOME}/local/all/share/info
+export PATH=${TRUEHOME}/local/all/bin:${TRUEHOME}/local/${ARCH_DIR}/bin:${TRUEHOME}/local/${ARCH_DIR}/bin:${PATH}
+export LD_LIBRARY_PATH=${TRUEHOME}/local/all/lib:${TRUEHOME}/local/${ARCH_DIR}/lib:${LD_LIBRARY_PATH}
+export MANPATH=${TRUEHOME}/local/all/man:${TRUEHOME}/local/${ARCH_DIR}/man:${MANPATH}
+export PYTHONPATH=${TRUEHOME}/local/${ARCH_DIR}/lib/${PYTHON_VERSION}/site-packages:${PYTHONPATH}
+export PERL5LIB=${TRUEHOME}/local/${ARCH_DIR}/lib/perl//5.8.8:${PERL5LIB}
+export PKG_CONFIG_PATH=${TRUEHOME}/local/all/lib/pkgconfig:${TRUEHOME}/local/${ARCH_DIR}/lib/pkgconfig:${PKG_CONFIG_PATH}
+export CPATH=${TRUEHOME}/local/${ARCH_DIR}/include:${CPATH}
+export LDFLAGS="-L${TRUEHOME}/local/all/lib -L${TRUEHOME}/local/${ARCH_DIR}/lib ${LDFLAGS}"
+export INFOPATH=$INFOPATH:${TRUEHOME}/local/${ARCH_DIR}/share/info:${TRUEHOME}/local/all/share/info
 
 
 # tab completion ignores those
 export FIGNORE=.svn
 
 ##### rlwrap #####
-export RLWRAP_HOME=${HOME}/.rlwrap
+export RLWRAP_HOME=${TRUEHOME}/.rlwrap
 
 ##### Cogito #####
-export PLAYERPATH=${HOME}/work/lisp/kibo/pg-sim/lib/${ARCH_DIR}/player-plugins
-export GAZEBOPATH=${HOME}/work/lisp/kibo/pg-sim/lib/${ARCH_DIR}/gazebo-plugins
+export PLAYERPATH=${TRUEHOME}/work/lisp/kibo/pg-sim/lib/${ARCH_DIR}/player-plugins
+export GAZEBOPATH=${TRUEHOME}/work/lisp/kibo/pg-sim/lib/${ARCH_DIR}/gazebo-plugins
 if [ -z "${SSH_CLIENT}" ]; then
   export KIBO_AGENT_PLAYER_HOST="127.0.0.1"
 else
@@ -160,13 +168,13 @@ alias cmucl='rlwrap -b ${LISP_BREAK_CHARS} cmu-lisp'
 alias allegro='rlwrap -b ${LISP_BREAK_CHARS} allegro-lisp -I ${ACLCORE}'
 
 # set aliases
-test -s ${HOME}/.bashconfig/.alias && source ${HOME}/.bashconfig/.alias
+test -s ${TRUEHOME}/.bashconfig/.alias && source ${TRUEHOME}/.bashconfig/.alias
 
-export TEXMFHOME='${HOME}/.texmf:/work/kargm/docs/trunk/texmf'
+export TEXMFHOME='${TRUEHOME}/.texmf:/work/kargm/docs/trunk/texmf'
 export BIBINPUTS=..:/work/kargm/docs/bibliography
 
 # get docs-ias bib and texmf
-export TEXMFHOME='${HOME}/.texmf:/work/docs-ias/texmf':$TEXMFHOME
+export TEXMFHOME='${TRUEHOME}/.texmf:/work/docs-ias/texmf':$TEXMFHOME
 export BIBINPUTS=..:/work/docs-ias/bibliography
 
 export EDITOR=vim
@@ -175,14 +183,21 @@ export EDITOR=vim
 #source /opt/ros/cturtle/setup.sh
 #export ROS_MASTER_URI=http://localhost:11311
 #export ROBOT=sim
-#export ROS_PACKAGE_PATH=${HOME}/work/ros_tutorials:$ROS_PACKAGE_PATH
+#export ROS_PACKAGE_PATH=${TRUEHOME}/work/ros_tutorials:$ROS_PACKAGE_PATH
 #export ROS_PACKAGE_PATH=$HOME/ros/sandbox/01:$ROS_PACKAGE_PATH
 
 #Fall school 2010
-source ${HOME}/ros/setup.sh
+source ${TRUEHOME}/ros/setup.sh
 export ROBOT=sim
 #Set java version 1.6
 export JAVA_HOME=/usr/lib/jvm/java-6-sun
 export PATH=${JAVA_HOME}/bin:${PATH}
 export ROSJAVA_AUX_CLASSPATH=`rospack find rosjava_deps`/rosjava_msgs.jar
 export CLASSPATH=`rospack find rosjava_deps`/rosjava_msgs.jar
+
+#Morse simulator
+export ORS_ROOT=${TRUEHOME}/local/ubuntu-amd64/DIR/morse
+export PYTHONPATH=$ORS_ROOT/lib/python2.6/site-packages:$ORS_ROOT/lib/python2.6/site-packages/morse/blender:${PYTHONPATH}
+
+#Blender executable needed for MORSE simulator
+export ORS_BLENDER=${TRUEHOME}/work/blender/blender-2.49b-linux-glibc236-py26-x86_64/blender
