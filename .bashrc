@@ -186,7 +186,7 @@ export PATH=${JAVA_HOME}/bin:${PATH}
 
 alias morse='morse -c'
 
-#source ${TRUEHOME}/work/ros/setup.bash 
+source ${TRUEHOME}/work/ros/setup.bash 
 
 #libsvm
 export CLASSPATH=$CLASSPATH:/home/kargm/libsvm-3.11/java/libsvm.jar
@@ -194,3 +194,9 @@ export HOSTFILE="/etc/hosts"
 
 # load .XSession for emacs design
 #xrdb -load ~/.Xsession
+
+# ProbCog
+source /home/kargm/work/probcog/probcog3217/env.sh
+# BLAS (for compiling SciPy)
+#export BLAS=~/src/BLAS/libfblas.a
+
